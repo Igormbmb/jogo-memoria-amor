@@ -52,15 +52,16 @@ header p {
 }
 
 .memory-card.flip {
-    transform: rotateY(180deg); /* Gira a carta 180 graus ao virar */
+    transform: rotateY(180deg); /* Gira a carta para mostrar a frente */
 }
 
-/* ESTA É A ALTERAÇÃO CHAVE PARA MANTER OS PARES VIRADOS */
+/* ESTA É A SEÇÃO CRÍTICA PARA MANTER O PAR VIRADO */
 .memory-card.match {
-    transform: rotateY(180deg) scale(1.05); /* Mantém virada e com um leve pulso */
-    opacity: 1; /* Garante visibilidade total */
-    animation: pulse 1s infinite alternate; /* Animação de pulso */
-    cursor: default; /* Impede novos cliques */
+    transform: rotateY(180deg) scale(1.05); /* Garante que a carta fique virada para a frente E um pequeno pulso */
+    opacity: 1; /* Garante que esteja totalmente visível */
+    animation: pulse 1s infinite alternate; /* Efeito de pulso para pares encontrados */
+    cursor: default; /* Impede novos cliques em cartas já pareadas */
+    pointer-events: none; /* Adiciona mais uma camada para desabilitar cliques */
 }
 
 .front-face, .back-face {
@@ -76,13 +77,13 @@ header p {
 }
 
 .front-face {
-    transform: rotateY(180deg); /* A frente da carta já começa virada para trás */
-    background-color: #FF69B4; /* Cor da frente da carta (onde aparece o emoji) */
+    transform: rotateY(180deg); /* A frente da carta já começa "virada para trás" no estado inicial */
+    background-color: #FF69B4; /* Cor de fundo da frente da carta (onde o emoji aparece) */
 }
 
 .back-face {
-    background-color: #E63946; /* Cor da parte de trás da carta (era a interrogação, agora é só a cor de fundo) */
-    /* Não há text-content no JS, então apenas a cor de fundo aparece */
+    background-color: #E63946; /* Cor da parte de trás da carta (será lisa, sem interrogação) */
+    color: transparent; /* GARANTE que nenhum texto apareça, mesmo se tiver interrogação perdida */
 }
 
 /* Mensagem final do jogo */
@@ -96,7 +97,7 @@ header p {
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);
     transform: scale(0.9);
     animation: scaleIn 0.8s forwards ease-out;
-    display: flex; /* Para centralizar os botões e a nova mensagem */
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -120,7 +121,7 @@ header p {
     border-radius: 8px;
     font-size: 1.2em;
     cursor: pointer;
-    margin: 0 10px 15px; /* Adicionado margem inferior para separar da mensagem de resposta */
+    margin: 0 10px 15px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -133,7 +134,6 @@ header p {
     background-color: #ccc;
     cursor: not-allowed;
 }
-
 
 /* Esconde a mensagem final no início */
 .hidden {
