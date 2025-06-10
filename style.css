@@ -52,16 +52,15 @@ header p {
 }
 
 .memory-card.flip {
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg);
 }
 
-/* Esta classe será ajustada no Passo 2, por enquanto ela já está aqui */
 .memory-card.match {
-    transform: rotateY(180deg) scale(1.05); 
-    opacity: 1; 
-    animation: pulse 1s infinite alternate; 
-    cursor: default; 
-    pointer-events: none; 
+    transform: rotateY(180deg) scale(1.05);
+    opacity: 1;
+    animation: pulse 1s infinite alternate;
+    cursor: default;
+    pointer-events: none;
 }
 
 .front-face, .back-face {
@@ -72,18 +71,18 @@ header p {
     display: flex;
     align-items: center;
     justify-content: center;
-    backface-visibility: hidden; 
+    backface-visibility: hidden;
     font-size: 3em;
 }
 
 .front-face {
-    transform: rotateY(180deg); 
-    background-color: #FF69B4; 
+    transform: rotateY(180deg);
+    background-color: #FF69B4;
 }
 
 .back-face {
-    background-color: #E63946; /* Cor de fundo da parte de trás da carta */
-    color: transparent; /* MUITO IMPORTANTE: GARANTE que nenhum texto (como a interrogação) apareça */
+    background-color: #E63946;
+    color: transparent; /* GARANTE que NENHUM texto apareça no verso da carta */
 }
 
 #final-message {
@@ -134,8 +133,9 @@ header p {
     cursor: not-allowed;
 }
 
+/* ESTA É A CLASSE QUE ESCONDE A MENSAGEM INICIALMENTE */
 .hidden {
-    display: none;
+    display: none; /* Garante que o elemento não seja visível */
 }
 
 @keyframes fadeIn {
