@@ -55,7 +55,7 @@ header p {
     transform: rotateY(180deg); /* Gira a carta para mostrar a frente */
 }
 
-/* ESTA É A SEÇÃO CRÍTICA PARA MANTER O PAR VIRADO */
+/* ESSA É A SEÇÃO CRÍTICA PARA MANTER O PAR VIRADO */
 .memory-card.match {
     transform: rotateY(180deg) scale(1.05); /* Garante que a carta fique virada para a frente E um pequeno pulso */
     opacity: 1; /* Garante que esteja totalmente visível */
