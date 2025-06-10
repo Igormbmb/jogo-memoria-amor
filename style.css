@@ -9,12 +9,13 @@ body {
     background: linear-gradient(to right, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    overflow-x: hidden;
+    overflow-x: hidden; /* Evita barra de rolagem horizontal indesejada */
 }
 
 header {
     text-align: center;
     margin-bottom: 30px;
+    padding: 10px; /* Adicionado para garantir espaço no topo */
 }
 
 header h1 {
@@ -30,14 +31,16 @@ header p {
 }
 
 .memory-game {
-    width: 600px;
-    height: 400px;
+    width: 600px; /* Largura padrão para desktop */
+    height: 400px; /* Altura padrão para desktop */
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas para desktop */
+    grid-template-rows: repeat(3, 1fr); /* 3 linhas para desktop */
     gap: 15px;
     perspective: 1000px;
     margin-bottom: 30px;
+    padding: 10px; /* Adicionado para garantir espaço dentro do contêiner */
+    box-sizing: border-box; /* Inclui padding e borda no cálculo da largura/altura */
 }
 
 .memory-card {
@@ -72,7 +75,7 @@ header p {
     align-items: center;
     justify-content: center;
     backface-visibility: hidden;
-    font-size: 3em;
+    font-size: 3em; /* Tamanho do emoji padrão */
 }
 
 .front-face {
@@ -82,7 +85,7 @@ header p {
 
 .back-face {
     background-color: #E63946;
-    color: transparent; /* GARANTE que NENHUM texto apareça no verso da carta */
+    color: transparent;
 }
 
 #final-message {
@@ -133,11 +136,11 @@ header p {
     cursor: not-allowed;
 }
 
-/* ESTA É A CLASSE QUE ESCONDE A MENSAGEM INICIALMENTE */
 .hidden {
-    display: none; /* Garante que o elemento não seja visível */
+    display: none;
 }
 
+/* Animações */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -160,26 +163,34 @@ header p {
     100% { transform: scale(1.05); }
 }
 
+/* --- REGRAS PARA TELAS MENORES (RESPONSIVIDADE) --- */
 @media (max-width: 768px) {
-    .memory-game {
-        width: 90%;
-        height: auto;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 1fr);
-    }
-
-    .front-face, .back-face {
-        font-size: 2.5em;
-    }
-
+    /* Ajustes para o cabeçalho */
     header h1 {
-        font-size: 2.2em;
+        font-size: 2.2em; /* Diminui o tamanho do título */
     }
 
     header p {
-        font-size: 1.2em;
+        font-size: 1.2em; /* Diminui o tamanho do subtítulo */
     }
 
+    /* Ajustes para o contêiner do jogo */
+    .memory-game {
+        width: 95vw; /* Ocupa 95% da largura da viewport (tela) */
+        height: auto; /* Altura automática para se ajustar ao conteúdo */
+        /* Mudança para 3 colunas e 4 linhas para melhor adaptação em celulares */
+        grid-template-columns: repeat(3, 1fr); /* 3 colunas para celular */
+        grid-template-rows: repeat(4, 1fr); /* 4 linhas para celular */
+        gap: 8px; /* Reduz o espaçamento entre as cartas */
+        padding: 5px; /* Reduz o padding do contêiner */
+    }
+
+    /* Ajustes para as faces das cartas (tamanho do emoji) */
+    .front-face, .back-face {
+        font-size: 2.2em; /* Diminui o tamanho do emoji para caber melhor */
+    }
+
+    /* Ajustes para a mensagem final */
     #final-message {
         font-size: 1.2em;
         padding: 20px;
@@ -192,5 +203,29 @@ header p {
     #final-message button {
         padding: 10px 20px;
         font-size: 1em;
+    }
+}
+
+/* --- REGRAS PARA TELAS AINDA MENORES (Ex: iPhone SE) --- */
+@media (max-width: 480px) {
+    .memory-game {
+        gap: 5px; /* Reduz ainda mais o espaçamento */
+    }
+    .front-face, .back-face {
+        font-size: 1.8em; /* Ajusta o tamanho do emoji para caber em telas muito pequenas */
+    }
+    #final-message {
+        font-size: 1em;
+        padding: 15px;
+    }
+    #final-message h2 {
+        font-size: 1.5em;
+    }
+    #final-message p {
+        font-size: 0.9em;
+    }
+    #final-message button {
+        padding: 8px 15px;
+        font-size: 0.9em;
     }
 }
