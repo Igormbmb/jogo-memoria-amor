@@ -4,12 +4,12 @@ const acceptButton = document.getElementById('accept-button');
 const declineButton = document.getElementById('decline-button');
 
 const emojis = ['❤️', '🧡', '💛', '💚', '💙', '💜'];
-const totalPairs = emojis.length; // O número total de pares (6 neste caso)
+const totalPairs = emojis.length; // O número total de pares a serem encontrados (6 neste caso)
 
-let cards = [...emojis, ...emojis]; // Duplica os emojis para ter os pares
+let cards = [...emojis, ...emojis]; // Duplica os emojis para ter os pares (12 cartas no total)
 
 let hasFlippedCard = false; // Flag para saber se uma carta já foi virada
-let lockBoard = false; // Flag para travar o tabuleiro durante as animações
+let lockBoard = false; // Flag para travar o tabuleiro durante as animações de virar/desvirar
 let firstCard, secondCard; // Variáveis para armazenar as duas cartas viradas
 let matchedPairs = 0; // Contador de pares encontrados
 
@@ -31,8 +31,8 @@ function createCards() {
 
         const backFace = document.createElement('div'); // Cria o div para a face traseira da carta
         backFace.classList.add('back-face'); // Adiciona a classe CSS 'back-face'
-        // IMPORTANTE: Não definimos textContent aqui para remover a interrogação
-        // backFace.textContent = '?'; // LINHA REMOVIDA OU MANTIDA SEM CONTEÚDO
+        // IMPORTANTE: NÃO definimos textContent aqui. A interrogação será removida.
+        // backFace.textContent = '?'; // LINHA REMOVIDA
 
         card.appendChild(frontFace); // Adiciona a face frontal à carta
         card.appendChild(backFace); // Adiciona a face traseira à carta
@@ -45,11 +45,11 @@ function createCards() {
 
 // Função para virar uma carta
 function flipCard() {
-    // Se a carta já tem a classe 'match' (já é um par), não faz nada
+    // 1. Impede clicar em cartas que já formaram par (já têm a classe 'match')
     if (this.classList.contains('match')) return; 
-    // Se o tabuleiro estiver travado (animação em andamento), não faz nada
+    // 2. Impede clicar se o tabuleiro estiver travado (duas cartas virando)
     if (lockBoard) return;
-    // Se a carta clicada for a mesma que a primeira carta virada, não faz nada
+    // 3. Impede clicar na mesma carta duas vezes
     if (this === firstCard) return;
 
     this.classList.add('flip'); // Adiciona a classe 'flip' para virar a carta visualmente
@@ -63,6 +63,8 @@ function flipCard() {
 
     // É a segunda carta virada
     secondCard = this;
+    // Trava o tabuleiro enquanto verificamos o par
+    lockBoard = true; 
     checkForMatch(); // Verifica se as duas cartas formam um par
 }
 
@@ -88,32 +90,33 @@ function disableCards() {
     firstCard.classList.add('match');
     secondCard.classList.add('match');
     
-    // IMPORTANTE: Remover a classe 'flip' imediatamente após adicionar 'match'.
-    // A classe 'match' no CSS agora é responsável por manter a virada.
+    // IMPORTANTE: Remove a classe 'flip' logo após adicionar 'match'.
+    // A classe 'match' no CSS agora é a responsável por manter a carta virada.
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
 
     matchedPairs++; // Incrementa a contagem de pares encontrados
 
+    // *** AQUI É A PRINCIPAL CORREÇÃO PARA A MENSAGEM FINAL ***
     // Verifica se TODOS os pares foram encontrados
-    if (matchedPairs === totalPairs) { // Compara com o número total de pares
+    if (matchedPairs === totalPairs) { 
         setTimeout(() => {
             finalMessage.classList.remove('hidden'); // Mostra a mensagem final
             memoryGame.style.display = 'none'; // Esconde o tabuleiro do jogo
         }, 1000); // Espera 1 segundo antes de mostrar a mensagem
     }
 
-    resetBoard(); // Reseta o estado para a próxima jogada
+    resetBoard(); // Reseta o estado para a próxima jogada (desbloqueia o tabuleiro)
 }
 
 // Função para desvirar cartas que não formam um par
 function unflipCards() {
-    lockBoard = true; // Trava o tabuleiro para evitar cliques enquanto as cartas desviram
-
+    // O lockBoard já foi ativado em flipCard antes de chamar checkForMatch
+    
     setTimeout(() => {
         firstCard.classList.remove('flip'); // Remove a classe 'flip' para desvirar a primeira carta
         secondCard.classList.remove('flip'); // Remove a classe 'flip' para desvirar a segunda carta
-        resetBoard(); // Reseta o estado do tabuleiro
+        resetBoard(); // Reseta o estado do tabuleiro (desbloqueia o tabuleiro)
     }, 1500); // Espera 1.5 segundos antes de desvirar
 }
 
