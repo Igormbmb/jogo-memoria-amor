@@ -1,138 +1,127 @@
 body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
+    font-family: 'Arial', sans-serif; /* Tipo de letra */
+    display: flex; /* Ajuda a centralizar as coisas */
+    flex-direction: column; /* Organiza os elementos em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    min-height: 100vh; /* Ocupa a altura total da tela */
+    margin: 0; /* Remove margens padrão do navegador */
     background: linear-gradient(to right, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%); /* Fundo degradê de dia dos namorados */
-    color: #fff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    overflow-x: hidden; /* Evita barra de rolagem horizontal em caso de elementos saindo da tela */
+    color: #fff; /* Cor do texto */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Sombra no texto para destacar */
 }
 
 header {
-    text-align: center;
-    margin-bottom: 30px;
+    text-align: center; /* Centraliza o texto do cabeçalho */
+    margin-bottom: 30px; /* Espaço abaixo do cabeçalho */
 }
 
 header h1 {
-    font-size: 3em;
-    color: #8B0000;
-    animation: bounceIn 1s ease-out;
+    font-size: 3em; /* Tamanho do título principal */
+    color: #8B0000; /* Cor do título */
+    animation: bounceIn 1s ease-out; /* Animação de entrada do título */
 }
 
 header p {
-    font-size: 1.5em;
-    color: #FF69B4;
-    animation: fadeIn 1.5s ease-out;
+    font-size: 1.5em; /* Tamanho da mensagem abaixo do título */
+    color: #FF69B4; /* Cor da mensagem */
+    animation: fadeIn 1.5s ease-out; /* Animação de entrada da mensagem */
 }
 
 .memory-game {
-    width: 600px;
-    height: 400px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 15px;
-    perspective: 1000px;
-    margin-bottom: 30px;
+    width: 600px; /* Largura do tabuleiro do jogo */
+    height: 400px; /* Altura do tabuleiro do jogo */
+    display: grid; /* Organiza as cartas em grade */
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas de cartas */
+    grid-template-rows: repeat(3, 1fr); /* 3 linhas de cartas */
+    gap: 15px; /* Espaço entre as cartas */
+    perspective: 1000px; /* Efeito de perspectiva para a animação de virar */
+    margin-bottom: 30px; /* Espaço abaixo do jogo */
 }
 
 .memory-card {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    border-radius: 10px;
-    cursor: pointer;
+    width: 100%; /* Largura da carta */
+    height: 100%; /* Altura da carta */
+    position: relative; /* Posição relativa para animar */
+    transform-style: preserve-3d; /* Permite a rotação 3D */
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1); /* Animação suave ao virar */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Sombra na carta */
+    border-radius: 10px; /* Bordas arredondadas */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
 }
 
 .memory-card.flip {
-    transform: rotateY(180deg); /* Gira a carta para mostrar a frente */
+    transform: rotateY(180deg); /* Gira a carta 180 graus ao virar */
 }
 
-/* ESSA É A SEÇÃO CRÍTICA PARA MANTER O PAR VIRADO */
 .memory-card.match {
-    transform: rotateY(180deg) scale(1.05); /* Garante que a carta fique virada para a frente E um pequeno pulso */
-    opacity: 1; /* Garante que esteja totalmente visível */
-    animation: pulse 1s infinite alternate; /* Efeito de pulso para pares encontrados */
-    cursor: default; /* Impede novos cliques em cartas já pareadas */
-    pointer-events: none; /* Adiciona mais uma camada para desabilitar cliques */
+    /* Efeito para cartas que formam par */
+    opacity: 0.8;
+    animation: pulse 1s infinite alternate; /* Animação de pulso para pares encontrados */
 }
 
 .front-face, .back-face {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%; /* Largura da frente e do verso da carta */
+    height: 100%; /* Altura da frente e do verso da carta */
+    position: absolute; /* Posição absoluta para sobrepor */
+    border-radius: 10px; /* Bordas arredondadas */
+    background-color: #FFC0CB; /* Cor de fundo das cartas */
+    display: flex; /* Ajuda a centralizar o conteúdo */
+    align-items: center; /* Centraliza verticalmente o conteúdo */
+    justify-content: center; /* Centraliza horizontalmente o conteúdo */
     backface-visibility: hidden; /* Esconde o lado de trás quando não virado */
     font-size: 3em; /* Tamanho do emoji */
 }
 
 .front-face {
-    transform: rotateY(180deg); /* A frente da carta já começa "virada para trás" no estado inicial */
-    background-color: #FF69B4; /* Cor de fundo da frente da carta (onde o emoji aparece) */
+    transform: rotateY(180deg); /* A frente da carta já começa virada para trás */
+    background-color: #FF69B4; /* Cor mais escura para o emoji virado */
 }
 
 .back-face {
-    background-color: #E63946; /* Cor da parte de trás da carta (será lisa, sem interrogação) */
-    color: transparent; /* GARANTE que nenhum texto apareça, mesmo se tiver interrogação perdida */
+    background-color: #E63946; /* Cor da parte de trás da carta */
+    font-size: 2em; /* Tamanho do ponto de interrogação */
+    color: #fff; /* Cor do ponto de interrogação */
 }
 
 /* Mensagem final do jogo */
 #final-message {
-    text-align: center;
-    font-size: 1.8em;
-    color: #FF69B4;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-    transform: scale(0.9);
-    animation: scaleIn 0.8s forwards ease-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    text-align: center; /* Centraliza o texto */
+    font-size: 1.8em; /* Tamanho da fonte */
+    color: #FF69B4; /* Cor do texto */
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente */
+    padding: 30px; /* Espaçamento interno */
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Sombra */
+    transform: scale(0.9); /* Começa um pouco menor */
+    animation: scaleIn 0.8s forwards ease-out; /* Animação de aparecer */
 }
 
 #final-message h2 {
-    font-size: 2.5em;
-    color: #8B0000;
-    margin-bottom: 15px;
+    font-size: 2.5em; /* Tamanho do título da mensagem */
+    color: #8B0000; /* Cor do título */
+    margin-bottom: 15px; /* Espaço abaixo do título */
 }
 
 #final-message p {
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* Espaço abaixo do parágrafo */
 }
 
 #final-message button {
-    background-color: #FF1493;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
-    cursor: pointer;
-    margin: 0 10px 15px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #FF1493; /* Cor dos botões */
+    color: white; /* Cor do texto dos botões */
+    padding: 12px 25px; /* Espaçamento interno dos botões */
+    border: none; /* Sem borda */
+    border-radius: 8px; /* Bordas arredondadas */
+    font-size: 1.2em; /* Tamanho da fonte dos botões */
+    cursor: pointer; /* Muda o cursor */
+    margin: 0 10px; /* Espaço entre os botões */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave */
 }
 
 #final-message button:hover {
-    background-color: #C71585;
-    transform: translateY(-3px);
-}
-
-#final-message button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+    background-color: #C71585; /* Cor ao passar o mouse */
+    transform: translateY(-3px); /* Efeito de subir */
 }
 
 /* Esconde a mensagem final no início */
@@ -166,14 +155,14 @@ header p {
 /* Responsividade (para celulares, etc.) */
 @media (max-width: 768px) {
     .memory-game {
-        width: 90%;
+        width: 90%; /* Ajusta a largura para telas menores */
         height: auto;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas menores */
+        grid-template-rows: repeat(4, 1fr); /* 4 linhas em telas menores */
     }
 
     .front-face, .back-face {
-        font-size: 2.5em;
+        font-size: 2.5em; /* Ajusta o tamanho do emoji */
     }
 
     header h1 {
