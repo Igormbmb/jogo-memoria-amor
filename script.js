@@ -31,10 +31,11 @@ function createCards() {
         frontFace.classList.add('front-face');
         frontFace.textContent = emoji; // Coloca o emoji na frente da carta
 
-        // Cria o verso da carta (o ponto de interrogação)
+        // NÃO VAMOS MAIS CRIAR O VERSO DA CARTA COM O PONTO DE INTERROGAÇÃO.
+        // O verso será vazio, apenas para a animação de virar.
         const backFace = document.createElement('div');
         backFace.classList.add('back-face');
-        backFace.textContent = '?'; // Coloca o ponto de interrogação no verso
+        // backFace.textContent = '?'; // REMOVIDO: Não teremos mais a interrogação
 
         card.appendChild(frontFace); // Adiciona a frente à carta
         card.appendChild(backFace); // Adiciona o verso à carta
@@ -70,7 +71,9 @@ function checkForMatch() {
     // Compara o texto (emoji) da frente das duas cartas
     let isMatch = firstCard.querySelector('.front-face').textContent === secondCard.querySelector('.front-face').textContent;
 
-    isMatch ? disableCards() : unflipCards(); // Se for um par, desabilita as cartas; se não, desvira
+    // AQUI É A MUDANÇA: Se for um par, chamamos 'disableCards' que VAI MANTER ELAS VIRADAS.
+    // Se não for, desvira como antes.
+    isMatch ? disableCards() : unflipCards();
 }
 
 // Função para desabilitar cartas que formam um par
@@ -78,9 +81,14 @@ function disableCards() {
     firstCard.removeEventListener('click', flipCard); // Remove o clique da primeira carta
     secondCard.removeEventListener('click', flipCard); // Remove o clique da segunda carta
 
-    // Adiciona a classe 'match' para uma animação extra
+    // Adiciona a classe 'match'. Esta classe é que vai fazer elas ficarem viradas.
     firstCard.classList.add('match');
     secondCard.classList.add('match');
+
+    // Remove a classe 'flip' APENAS para garantir que não haja conflito
+    // mas a classe 'match' manterá a rotação para mostrar a frente.
+    // firstCard.classList.remove('flip'); // Comentado para garantir que a classe 'match' comande a virada
+    // secondCard.classList.remove('flip'); // Comentado
 
     matchedPairs++; // Incrementa a contagem de pares encontrados
 
@@ -112,16 +120,8 @@ function resetBoard() {
     [firstCard, secondCard] = [null, null]; // Limpa as cartas viradas
 }
 
-// Eventos para os botões da mensagem final (apenas para exemplo, não fazem nada no código)
-acceptButton.addEventListener('click', () => {
-    alert('Que ótimo! Te encontro lá!');
-    // Você pode redirecionar para outro lugar ou fazer algo mais aqui
-});
-
-declineButton.addEventListener('click', () => {
-    alert('Ah, que pena! Quem sabe na próxima? 😉');
-    // Você pode redirecionar ou fazer algo mais aqui
-});
-
-
-createCards(); // Inicia o jogo criando as cartas
+// NOVIDADE: Elemento para exibir as mensagens dos botões
+const responseMessageDiv = document.createElement('div');
+responseMessageDiv.style.marginTop = '20px';
+responseMessageDiv.style.fontSize = '1.5em';
+responseMessageDiv.style.color = '#
